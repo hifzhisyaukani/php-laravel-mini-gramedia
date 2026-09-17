@@ -95,22 +95,25 @@
                 </div>
 
                 <div class="row g-4">
-
-                    <div class="col-md-4">
-                        <div class="card h-100" style="background: linear-gradient(135deg, #FF9A9E 0%, #FFFFFF 100%)">
-                            <div class="card-body d-flex flex-column justify-content-center align-items-center text-dark">
-                                <h2 class="fw-bold">FICTION</h2>
-                                <p class="text-secondary fw-bold mb-0">PACKAGE</p>
-                                <div class="text-center mt-2">
-                                    Rp. <span class="fs-2 fw-bold text-danger">49.000</span>
-                                    <br>
-                                    <span class="fw-bold text-secondary">/30 Days</span>
+                    @foreach ($subscriptionPackages as $package)5
+                        <div class="col-md-4">
+                            <div class="card h-100" style="background: linear-gradient(135deg, {{ $package->color }} 0%, #FFFFFF 100%)">
+                                <div
+                                    class="card-body d-flex flex-column justify-content-center align-items-center text-light">
+                                    <h2 class="fw-bold">{{ strtoupper($package->name) }}</h2>
+                                    <p class="text-light fw-bold mb-0">{{ $package->description }}</p>
+                                    <div class="text-center mt-2">
+                                        Rp. <span class="fs-2 fw-bold">{{ number_format($package->price, 0, ',', '.') }}</span>
+                                        <br>
+                                        <span class="fw-bold">/30 Days</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
 
-                    <div class="col-md-4">
+
+                    {{-- <div class="col-md-4">
                         <div class="card h-100" style="background: linear-gradient(135deg, #A1C4FD 0%, #FFFFFF 100%)">
                             <div class="card-body d-flex flex-column justify-content-center align-items-center text-dark">
                                 <h2 class="fw-bold">NON-FICTION</h2>
@@ -137,7 +140,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
