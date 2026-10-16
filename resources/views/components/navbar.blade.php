@@ -28,8 +28,8 @@
                     <a href="{{ route('admin.subscription-packages.index') }}" class="nav-link ">Paket
                         Langganan</a>
                 </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">Buku</a>
+                <li class="nav-item {{ request()->routeIs('admin.books.index') ? 'active' : '' }}">
+                    <a href="{{ route('admin.books.index') }}" class="nav-link">Buku</a>
                 </li>
             @else
                 {{-- kategori --}}
@@ -41,64 +41,49 @@
                     <div class="dropdown-menu dropdown-menu-card" style="min-width: 600px;">
                         <div class="p-3">
                             <div class="row g-2">
-                                <div class="col-3">
-                                    <div class="card py-2">
-                                        <div class="card-body p-2 text-center">Kategori 1</div>
-                                    </div>
-                                </div>
 
-                                <div class="col-3">
-                                    <div class="card py-2">
-                                        <div class="card-body p-2 text-center">Kategori 2</div>
+                                @foreach ($navbarCategories as $category)
+                                    <div class="col-3">
+                                        <div class="card py-2">
+                                            <div class="card-body p-2 text-center">{{ $category->name }}</div>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="col-3">
-                                    <div class="card py-2">
-                                        <div class="card-body p-2 text-center">Kategori 3</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-3">
-                                    <div class="card py-2">
-                                        <div class="card-body p-2 text-center">Kategori 4</div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
                 </div>
+    </div>
 
-                {{-- search bar --}}
-                <div class="input-icon w-100 py-2">
-                    <input type="text" class="form-control form-control-rounded"
-                        placeholder="Cari Judul, Produk, Buku, Penulis..." />
-                    <span class="input-icon-addon">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <circle cx="10" cy="10" r="7" />
-                            <line x1="21" y1="21" x2="15" y2="15" />
-                        </svg>
-                    </span>
-                </div>
+    {{-- search bar --}}
+    <form method="GET" action="{{ route('search') }}" class="input-icon w-100 py-2 d-flex">
+        <input type="text" value="{{ request('q') }}" name="q" class="form-control form-control-rounded"
+            placeholder="Cari Judul, Produk, Buku, Penulis..." />
+        <button type="submit" class="btn btn-primary ms-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <circle cx="10" cy="10" r="7" />
+                <line x1="21" y1="21" x2="15" y2="15" />
+            </svg>
+        </button>
+    </form>
 
-                {{-- icon keranjang --}}
-                <div class="mt-3 ms-2">
-                    <i class="fa-solid fa-cart-arrow-down fs-2 text dark"></i>
-                </div>
-            @endif
+    {{-- icon keranjang --}}
+    <div class="mt-3 ms-2">
+        <i class="fa-solid fa-cart-arrow-down fs-2 text dark"></i>
+    </div>
+    @endif
 
-        </ul>
-        <div class="navbar-nav flex-row order-md-last ms-auto gap-2">
-            {{-- function check udh ada sesi login atau belum --}}
-            @if (Auth::check())
-                <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-light">Register</a>
-            @endif
-        </div>
+    </ul>
+    <div class="navbar-nav flex-row order-md-last ms-auto gap-2">
+        {{-- function check udh ada sesi login atau belum --}}
+        @if (Auth::check())
+            <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+        @else
+            <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+            <a href="{{ route('register') }}" class="btn btn-light">Register</a>
+        @endif
+    </div>
     </div>
 </header>

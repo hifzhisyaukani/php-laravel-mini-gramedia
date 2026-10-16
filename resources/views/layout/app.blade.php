@@ -15,14 +15,19 @@
     {{-- jquery --}}
     {{-- <script src="https://code.jquery.com/jquery-3.7.1.slim.js"
         integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script> --}}\
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     {{-- CDN slick --}}
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     {{-- ini untuk theme slick --}}
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-
+    {{-- CDN DataTables --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/3.1.2/css/dataTables.dataTables.min.css" />
+    {{-- quiljs --}}
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+    
     <style>
-        html,body {
+        html,
+        body {
             overflow-x: hidden;
 
         }
@@ -34,13 +39,19 @@
     <x-navbar />
     @yield('content')
     <x-footer />
+
+
     {{-- CDN link tabler --}}
     <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
-    {{-- CDN link  slick--}}
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>	
+    {{-- CDN link  slick --}}
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    {{-- CDN link DataTables --}}
+    <script src="https://cdn.datatables.net/3.1.2/js/dataTables.min.js"></script>
+    {{-- quiljs --}}
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
     @stack('scripts')
-    
-    
+
+
 </body>
 
 </html>

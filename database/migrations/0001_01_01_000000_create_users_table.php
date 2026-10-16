@@ -14,7 +14,7 @@ return new class extends Migration
         // book_categories
         // jangan buku_kategori = boleh tapi tidak di sarankan
         // 1. pake es atau s agar jamak
-        // 2. pake snack case dan juga underscore(_) dan juga pakai bahasa inggris
+        // 2. pake snake_case dan juga underscore(_) dan juga pakai bahasa inggris
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');

@@ -16,7 +16,7 @@
     </div>
     <div class="card container">
         <div class="card-body">
-            <table class="table table-bordered table-responsive bg- ">
+            <table class="table table-bordered table-responsive bg-white" id="subscription-packages-table">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -28,33 +28,80 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- penggunaan foreach karena subscriptionPackages merupakan array multidimensi maka package akan berupa array assosiatif. mengaksesnya dengan menggunakan -> --}}
-                    @foreach ($SubscriptionPackageControllers as $package)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            {{-- loop iteration fungsinya untuk menampilkan nomor urut --}}
-                            <td>{{ $package->name }}</td>
-                            <td>{{ $package->description }}</td>
-                            <td>{{ $package->color }}</td>
-                            <td>Rp. {{ number_format($package->price, 0, ',', '.') }}</td>
-                            <td>
-                                <a href="{{ route('admin.subscription-packages.edit', $package->id) }}"
-                                    class="btn btn-sm btn-warning">Edit</a>
+                    {{-- penggunaan foreach karena subscriptionPackages merupakan array multidimensi maka package akan
+                    berupa array assosiatif. mengaksesnya dengan menggunakan -> --}}
+                    {{-- @foreach ($SubscriptionPackageControllers as $package)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        {{-- loop iteration fungsinya untuk menampilkan nomor urut --}}
+                    {{-- <td>{{ $package->name }}</td>
+                        <td>{{ $package->description }}</td>
+                        <td>{{ $package->color }}</td>
+                        <td>Rp. {{ number_format($package->price, 0, ',', '.') }}</td>
+                        <td>
 
-                                <form action="{{ route('admin.subscription-packages.destroy', $package->id) }}"
-                                    method="POST" class="d-inline"> @csrf
+                        </td>
+                    </tr>
+                    @endforeach --}}
 
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Apakah anda yakin ingin menghapus paket ini?')">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                    <!-- ini dikosongin karena akan otomatis di isi oleh data tabel yajra -->
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            // Memilih tabel berdasarkan ID-nya dan menginisialisasi DataTables
+            $("#subscription-packages-table").DataTable({
+                // Menampilkan indikator loading saat mengambil data
+                processing: true,
+                // Memproses data di sisi server/controller
+                ServerSide: true,
+                // URL route ke controller index yang mengirimkan data JSON Yajra
+                ajax: "{{ route('admin.subscription-packages.index') }}",
+                // Urutan kolom (sesuai urutan <th> di atas)
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: 'description',
+                        name: 'description',
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: 'color',
+                        name: 'color',
+                        orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: 'price',
+                        name: 'price',
+                        orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+            });
+        })
+    </script>
+@endpush

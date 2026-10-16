@@ -95,15 +95,17 @@
                 </div>
 
                 <div class="row g-4">
-                    @foreach ($subscriptionPackages as $package)5
+                    @foreach ($subscriptionPackages as $package)
                         <div class="col-md-4">
-                            <div class="card h-100" style="background: linear-gradient(135deg, {{ $package->color }} 0%, #FFFFFF 100%)">
+                            <div class="card h-100"
+                                style="background: linear-gradient(135deg, {{ $package->color }} 0%, #FFFFFF 100%)">
                                 <div
                                     class="card-body d-flex flex-column justify-content-center align-items-center text-light">
                                     <h2 class="fw-bold">{{ strtoupper($package->name) }}</h2>
                                     <p class="text-light fw-bold mb-0">{{ $package->description }}</p>
                                     <div class="text-center mt-2">
-                                        Rp. <span class="fs-2 fw-bold">{{ number_format($package->price, 0, ',', '.') }}</span>
+                                        Rp. <span
+                                            class="fs-2 fw-bold">{{ number_format($package->price, 0, ',', '.') }}</span>
                                         <br>
                                         <span class="fw-bold">/30 Days</span>
                                     </div>
@@ -144,163 +146,107 @@
                 </div>
             </div>
 
-            <div class="mt-4">
-                <div class="d-flex align-items-center gap-2 mb-4">
+            {{-- buku baru dirilis --}}
+            <div class="mt-4" id="buku-baru">
+                <div class="d-flex align-items-center gap-2">
                     <span class="badge bg-yellow text-yellow-fg p-2"><i class="fa-solid fa-crown fs-3"></i></span>
                     <h2 class="mt-3 text-dark">Buku Baru Di Rilis</h2>
                 </div>
                 <div id="wrapper-slider">
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrIOXSvfL5koKwcHABDhlMw6YW6wiA13Cb78Iksr8VgQ&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">3+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">James clear</span>
-                                    <br><span style="font-size: 1rem;">Atomic Habits</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 105.000</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw1N5WpvxVOAyu-2oVsiD0h1RKs4MxLm9Mj7VncvgXRpbaGXbq-helPQ4x&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">5+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Tere Liye</span>
-                                    <br><span style="font-size: 1rem;">Pulang</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 79.000</h4>
+                    @forelse ($latestBooks as $book)
+                        <div class="px-2">
+                            <div class="card" style="padding: 0.75rem; border-radius: 16px;">
+                                <div class="card-body">
+                                    <img class="d-block mx-auto w-40 h-50" alt=""
+                                        src="{{ asset($book->cover) }}" />
+                                    <div class="d-flex gap-2 mt-2">
+                                        <p class="badge"><i class="fa-solid fa-mobile"></i>PDP</p>
+                                        <p class="badge">3+</p>
+                                    </div>
+                                    <div>
+                                        <h5><span style="font-size: 0.8rem;"
+                                                class="text-secondary">{{ $book->author }}</span>
+                                            <br><span style="font-size: 1rem;">{{ $book->title }}</span>
+                                        </h5>
+                                        <h4 style="font-size: 1.2rem; font-weight: bold">Rp
+                                            {{ number_format($book->price, 0, ',', '.') }} </h4>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYPZ_3TD4nWM2H6Jg8N3Qsfyjaz98Q0iqLey5clwEBMQ&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">2+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Henry Manampiring</span>
-                                    <br><span style="font-size: 1rem;">Filosofi Teras</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 89.000</h4>
-                            </div>
+                    @empty
+                        <div class="col-12">
+                            <p class="text-center">Tidak ada buku baru yang tersedia.</p>
                         </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaSOC3vqh1j-qmD7mL7M4iE1B6E-1NhcC_9LsAMjhN1Q&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">7+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Farhan</span>
-                                    <br><span style="font-size: 1rem;">Seni Merayakan Salah Langkah</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 99.000</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaSOC3vqh1j-qmD7mL7M4iE1B6E-1NhcC_9LsAMjhN1Q&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">7+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Farhan</span>
-                                    <br><span style="font-size: 1rem;">Seni Merayakan Salah Langkah</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 99.000</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaSOC3vqh1j-qmD7mL7M4iE1B6E-1NhcC_9LsAMjhN1Q&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">7+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Farhan</span>
-                                    <br><span style="font-size: 1rem;">Seni Merayakan Salah Langkah</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 99.000</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaSOC3vqh1j-qmD7mL7M4iE1B6E-1NhcC_9LsAMjhN1Q&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">7+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Farhan</span>
-                                    <br><span style="font-size: 1rem;">Seni Merayakan Salah Langkah</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 99.000</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <img class="d-block mx-auto w-75 h-50" alt=""
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaSOC3vqh1j-qmD7mL7M4iE1B6E-1NhcC_9LsAMjhN1Q&s=10" />
-                            </div>
-                            <div class="d-flex gap-2 mt-2 ms-3">
-                                <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
-                                <p class="badge">7+</p>
-                            </div>
-                            <div class="ms-3 mb-3">
-                                <h5><span style="font-size: 0.8rem;" class="text-secondary">Farhan</span>
-                                    <br><span style="font-size: 1rem;">Seni Merayakan Salah Langkah</span>
-                                </h5 #>
-                                <h4 style="font-size: 1.2rem; font-weight: bold;">Rp. 99.000</h4>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
             </div>
+
             <div class="mt-4">
                 <div class="d-flex align-items-center gap-2 mb-4">
                     <h2 class="mt-3 text-dark" style="font-weight: bold">Buku Gratis</h2>
                 </div>
                 <div class="row">
+
+                    @forelse ($freeBooks as $book)
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <div
+                                    class="card-body d-flex flex-column justify-content-center align-items-center text-dark">
+                                    <img class="d-block mx-auto w-40 h-50" alt=""
+                                        src="{{ asset($book->cover) }}" />
+                                    <div class="d-flex gap-2 mt-2">
+                                        <p class="badge"><i class="fa-solid fa-mobile"></i>PDF</p>
+                                        <p class="badge">3+</p>
+                                    </div>
+                                    <div>
+                                        <h5><span style="font-size: 0.8rem;"
+                                                class="text-secondary">{{ $book->author }}</span>
+                                            <br><span style="font-size: 1rem;">{{ $book->title }}</span>
+                                        </h5>
+                                        <h4 style="font-size: 1.2rem; font-weight: bold">Rp
+                                            {{ number_format($book->price, 0, ',', '.') }} </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                        <div class="card d-flex flex-column">
+                            <div class="row row-0 flex-fill">
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="{{ asset($book->cover) }}"
+                                            alt="Card side image" class="w-100 h-100 object-cover">
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <div class="card-body h-full d-flex flex-column">
+                                        <h3 class="card-title">
+                                            <div class="badge"><i class="fa-solid fa-mobile"></i>PDF</div>
+                                        </h3>
+                                        <div class="text-secondary">
+                                            {{ $book->author }}
+                                            <br><span class="text-dark">{{ $book->title }}</span>
+                                        </div>
+                                        <div class="d-flex align-items-center pt-5 mt-auto">
+                                            <h3><span class="text-decoration-line-through text-secondary">Rp.150.000.000</span>
+                                            </h3>
+                                            <span class="text-dark">"Rp." .{{ number_format($book->price, 0, ',', '.') }} </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                        <div class="col-12">
+                            <p class="text-center">Tidak ada buku gratis yang tersedia.</p>
+                        </div>
+                    @endforelse
+                </div>
+
+                {{-- <div class="row">
                     <div class="col-4">
                         <div class="card d-flex flex-column">
                             <div class="row row-0 flex-fill">
@@ -390,49 +336,49 @@
                 </div>
                 <div class="row mt-2"></div>
             </div>
-        </div>
-    @endsection
+        </div> --}}
+            @endsection
 
 
 
-    @push('scripts')
-        <script>
-            $(document).ready(function() {
-                $('#wrapper-slider').slick({
-                    arrow: true,
-                    dots: true,
-                    infinite: false,
-                    speed: 300,
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                    responsive: [{
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: 3,
-                                slidesToScroll: 3,
-                                infinite: true,
-                                dots: true
-                            }
-                        },
-                        {
-                            breakpoint: 600,
-                            settings: {
-                                slidesToShow: 2,
-                                slidesToScroll: 2
-                            }
-                        },
-                        {
-                            breakpoint: 480,
-                            settings: {
-                                slidesToShow: 1,
-                                slidesToScroll: 1
-                            }
-                        }
-                        // You can unslick at a given breakpoint now by adding:
-                        // settings: "unslick"
-                        // instead of a settings object
-                    ]
-                });
-            })
-        </script>
-    @endpush
+            @push('scripts')
+                <script>
+                    $(document).ready(function() {
+                        $('#wrapper-slider').slick({
+                            arrow: true,
+                            dots: true,
+                            infinite: false,
+                            speed: 300,
+                            slidesToShow: 4,
+                            slidesToScroll: 4,
+                            responsive: [{
+                                    breakpoint: 1024,
+                                    settings: {
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3,
+                                        infinite: true,
+                                        dots: true
+                                    }
+                                },
+                                {
+                                    breakpoint: 600,
+                                    settings: {
+                                        slidesToShow: 2,
+                                        slidesToScroll: 2
+                                    }
+                                },
+                                {
+                                    breakpoint: 480,
+                                    settings: {
+                                        slidesToShow: 1,
+                                        slidesToScroll: 1
+                                    }
+                                }
+                                // You can unslick at a given breakpoint now by adding:
+                                // settings: "unslick"
+                                // instead of a settings object
+                            ]
+                        });
+                    })
+                </script>
+            @endpush

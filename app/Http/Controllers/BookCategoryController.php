@@ -5,18 +5,59 @@ namespace App\Http\Controllers;
 use App\Models\BookCategory;
 use Illuminate\Http\Request;
 
+use Yajra\DataTables\Facades\DataTables;
+
 class BookCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         // all : mengambil semua data dari model BookCategory dan menyimpannya ke dalam variable $bookcategorys
-        $bookCategorys = BookCategory::all();
+        // $bookCategorys = BookCategory::all();
 
-        return view('admin.book-categories.index', compact('bookCategorys'));
-    }
+        // ini yang yajra
+        // $request->ajax() jika ada pertmintaan dari ajax js, permintaan proses datatables dipanggil melalui ajax javascript di blade
+        if ($request->ajax()) {
+            // $bookCategorys = BookCategory::query();
+            $model = BookCategory::query();
+
+            return DataTables::eloquent($model)
+                // fungsinya yaitu menambahkan nomor urut dari 1-2-dst
+                ->addIndexColumn()
+                // menambahkan data selain yang ada di database: mengubah data atau untuk btn aksi
+                // menambah/mengubah data database
+                // ->addColumn('style', function($data) {
+
+                // })
+                ->addColumn('action', function ($data) {
+                    $editUrl = route('admin.book-categories.edit', $data->id);
+                    $deleteUrl = route('admin.book-categories.destroy', $data->id);
+                    $csrf = csrf_field();
+                    $method =   method_field('DELETE');
+
+                    $btnEdit = '<a href="' . $editUrl . '"
+                            class="btn btn-sm btn-warning">Edit</a>';
+
+                    $btnDelete = ' <form action="' . $deleteUrl . '"
+                                    method="POST" class="d-inline"> 
+                                    ' . $csrf . $method . '
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm(\'Apakah anda yakin ingin menghapus kategori ini?\')">
+                                        Hapus
+                                    </button>
+                                </form>';
+
+                    return $btnEdit . $btnDelete;
+                })
+                // menyimpan dari addColumn yang ada di html di dalamnya
+                ->rawColumns(['action'])
+                ->toJson();
+        }
+
+        return view('admin.book-categories.index');
+    }   
 
     /**
      * Show the form for creating a new resource.
