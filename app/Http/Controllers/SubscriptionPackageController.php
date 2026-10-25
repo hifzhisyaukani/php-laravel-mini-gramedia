@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\SubscriptionPackage;
+use App\Models\SubscriptionPackageUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -48,6 +50,8 @@ class SubscriptionPackageController extends Controller
                 ->addColumn('action', function ($data) {
                     $editUrl = route('admin.subscription-packages.edit', $data->id);
                     $deleteUrl = route('admin.subscription-packages.destroy', $data->id);
+                    $books = route('admin.subscription-packages.books', $data->id);
+
                     $csrf = csrf_field();
                     $method = method_field('DELETE');
 
@@ -62,13 +66,13 @@ class SubscriptionPackageController extends Controller
                                     </button>
                                 </form>                 
                                 ';
-
-                    return $btnEdit . $btnDelete;
+                    $btnBooks = '
+                                <a href= "' . $books . ' " class= "btn btn-sm btn-info">Books</a>';
+                    return $btnEdit . $btnDelete . $btnBooks;
                 })
                 // menyimpan dari addColumn yang ada di html di dalamnya
                 ->rawColumns(['action', 'color', 'price'])
                 ->toJson();
-
         }
 
         return view('admin.subscription-packages.index');
@@ -153,5 +157,25 @@ class SubscriptionPackageController extends Controller
         $subscriptionPackage->delete();
         // delete digunakan pada model untuk menghapus data, namun penggunaannya harus setelah proses pencarian data yang akan diubahnya
         return redirect()->route('admin.subscription-packages.index')->with('success', 'Paket Langganan telah berhasil di hapus');
+    }
+
+    public function checkoutPage($id)
+    {
+        $subscriptionPackage = SubscriptionPackage::findOrFail($id);
+        return view('user.subscription-packages.checkout', compact('subscriptionPackage'));
+    }
+
+    public function checkout(Request $request, $id) {
+        $subscriptionPackage = SubscriptionPackage::findOrFail($id);
+
+        SubscriptionPackageUser::create([
+            'subscription_package_id' => $subscriptionPackage->id,
+            'user_id' =>Auth::id(), //ambil id orang yang login, mendeteksi siapa user yang belinnya
+            // 30 hari dari sekarang, format tahun-bulan-tanggal
+            'expired_date' => now()->addDays(30)->format('Y-m-d'),
+        ]);
+
+        return redirect()->route('home')->with('success', 'Pembayaran berhasil. Terimakasih telah berlangganan!');
+
     }
 }

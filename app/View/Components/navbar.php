@@ -24,8 +24,11 @@ class navbar extends Component
     {
         $categories = BookCategory::orderBy('name', 'asc')->get();
 
+
         return view('components.navbar', [
             'navbarCategories' => $categories
         ]);
+
+
     }
 }

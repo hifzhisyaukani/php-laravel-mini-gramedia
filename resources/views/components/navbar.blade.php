@@ -19,7 +19,8 @@
                 <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}" class="nav-link">dashboard</a>
                 </li>
-                {{-- request()->routeIs() : mengecek apakah route saat ini sesuai dengan route yang ditentukan. fungsinya untuk memberikan class active yang nantinya akan berwarna biru muda link yang sedang aktif --}}
+                {{-- request()->routeIs() : mengecek apakah route saat ini sesuai dengan route yang ditentukan. fungsinya
+                untuk memberikan class active yang nantinya akan berwarna biru muda link yang sedang aktif --}}
                 <li class="nav-item {{ request()->routeIs('admin.book-categories.index') ? 'active' : '' }}">
                     <a href="{{ route('admin.book-categories.index') }}" class="nav-link ">Kategori
                         Buku</a>
@@ -45,7 +46,11 @@
                                 @foreach ($navbarCategories as $category)
                                     <div class="col-3">
                                         <div class="card py-2">
-                                            <div class="card-body p-2 text-center">{{ $category->name }}</div>
+
+                                            <a href="{{ route('category.books', $category->id) }}">
+                                                <div class="card-body p-2 text-center">{{ $category->name }}</div>
+                                            </a>
+
                                         </div>
                                     </div>
                                 @endforeach
